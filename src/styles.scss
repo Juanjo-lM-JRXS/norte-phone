@@ -1,0 +1,9 @@
+// Fuentes de Google Fonts servidas desde el propio sitio (mismos archivos, sin conexión extra).
+@use '@fontsource-variable/space-grotesk/wght.css' as grotesk;
+@use '@fontsource-variable/inter/wght.css' as inter;
+@use '@fontsource/space-mono/400.css' as mono-400;
+@use '@fontsource/space-mono/700.css' as mono-700;
+
+@use 'tokens';
+@use 'base';
+@use 'vidrio';

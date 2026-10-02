@@ -1,0 +1,110 @@
+@use 'tokens' as *;
+
+:host { display: block; }
+
+.seccion { overflow: hidden; }
+
+// Anillos concéntricos tipo sello detrás de la tarjeta: le dan al vidrio algo que desenfocar.
+.anillos {
+  position: absolute;
+  width: 46rem;
+  aspect-ratio: 1;
+  left: -14rem;
+  top: 50%;
+  translate: 0 -50%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgb(255 107 26 / 0.35) 0 14%, transparent 15%),
+    repeating-radial-gradient(circle, transparent 0 38px, rgb(169 177 190 / 0.18) 38px 40px);
+  pointer-events: none;
+
+  @include desde($bp-lg) { left: -6rem; }
+}
+
+.rejilla {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+
+  @include desde($bp-lg) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--s-8);
+    align-items: center;
+  }
+}
+
+.escena { perspective: 1000px; max-width: 26rem; width: 100%; justify-self: center; }
+
+.tarjeta {
+  display: grid;
+  gap: var(--s-6);
+  aspect-ratio: 1.586;
+  padding: var(--s-5);
+  border-radius: var(--r-vidrio);
+  transform: rotate(-4deg) rotateX(var(--incl-x, 0deg)) rotateY(var(--incl-y, 0deg));
+  transition: transform var(--dur-media) var(--ease-salida);
+  align-content: space-between;
+}
+
+.tarjeta-arriba,
+.tarjeta-abajo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.numero { color: var(--c-texto-vidrio-2); font-size: var(--t-sm); }
+
+.tarjeta-nombre {
+  font-family: var(--f-titulo);
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.tarjeta-abajo {
+  font-size: var(--t-xs);
+  color: var(--c-texto-vidrio-2);
+  flex-wrap: wrap;
+}
+
+.pago {
+  padding: 2px var(--s-2);
+  background: var(--c-naranja);
+  color: var(--c-noche);
+  font-weight: 700;
+  border-radius: var(--r-etiqueta);
+}
+
+.pasos {
+  display: grid;
+  gap: var(--s-5);
+  margin-top: var(--s-6);
+
+  li { display: flex; gap: var(--s-4); align-items: flex-start; }
+  h3 { font-size: var(--t-lg); }
+  p { margin-top: var(--s-1); color: var(--c-grafito-claro); }
+}
+
+.numero-paso {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 50%;
+  border: 1.5px solid var(--c-naranja);
+  color: var(--c-naranja);
+  font-weight: 700;
+}
+
+.aclaracion {
+  margin-top: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: 1px dashed var(--c-linea-oscura);
+  color: var(--c-grafito-claro);
+  font-size: var(--t-sm);
+}

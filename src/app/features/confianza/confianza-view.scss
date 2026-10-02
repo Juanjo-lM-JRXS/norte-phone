@@ -1,0 +1,219 @@
+@use 'tokens' as *;
+
+:host { display: block; }
+
+.laboratorio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-7);
+
+  @include desde($bp-lg) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--s-8);
+    align-items: center;
+  }
+}
+
+// Panel oscuro: el verde del sello necesita fondo noche para su contraste.
+.panel-sello {
+  @include desde($bp-lg) { order: -1; }
+  display: grid;
+  justify-items: center;
+  gap: var(--s-5);
+  padding: var(--s-7) var(--s-5);
+  border-radius: var(--r-vidrio);
+  background:
+    radial-gradient(circle at 50% 40%, var(--c-noche-3), var(--c-noche) 70%);
+  color: var(--c-hueso);
+  perspective: 900px;
+}
+
+.moneda {
+  position: relative;
+  width: min(60vw, 240px);
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--giro, 0deg)) rotateX(8deg);
+}
+
+.cara {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.frente {
+  app-sello-norte { --sello-tamano: 100%; }
+  box-shadow: 0 30px 50px -20px rgb(0 0 0 / 0.7);
+}
+
+.dorso {
+  display: grid;
+  place-content: center;
+  gap: var(--s-2);
+  text-align: center;
+  transform: rotateY(180deg);
+  background: var(--c-noche-2);
+  border: 6px solid var(--c-verde);
+  color: var(--c-hueso);
+
+  .mono { font-size: var(--t-sm); color: var(--c-grafito-claro); }
+  .dorso-texto { font-family: var(--f-titulo); font-size: var(--t-lg); font-weight: 600; }
+}
+
+.pie-sello { color: var(--c-grafito-claro); text-align: center; max-width: 28ch; }
+
+.lista-pruebas {
+  margin-top: var(--s-6);
+
+  li {
+    padding: var(--s-5) 0;
+    border-top: 1px solid var(--c-linea-clara);
+    &:last-child { border-bottom: 1px solid var(--c-linea-clara); }
+  }
+  h3 { font-size: var(--t-lg); }
+  p { margin-top: var(--s-2); color: var(--c-grafito); max-width: 48ch; }
+}
+
+.serial { margin-top: var(--s-4); max-width: 26rem; }
+
+// Garantía: un documento con esquina doblada.
+.garantia {
+  position: relative;
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-8);
+  padding: var(--s-6) var(--s-5);
+  background: var(--c-hueso-2);
+  border: 1px solid var(--c-linea-clara);
+  border-radius: var(--r-panel) 0 var(--r-panel) var(--r-panel);
+  clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 0 100%);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(225deg, var(--c-hueso) 50%, var(--c-grafito) 50%);
+    opacity: 0.5;
+  }
+
+  @include desde($bp-lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s-7);
+    padding: var(--s-7);
+  }
+
+  h3 { font-size: var(--t-xl); }
+  .garantia-cabecera p { margin-top: var(--s-2); color: var(--c-grafito); }
+}
+
+.condiciones {
+  summary {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: var(--toque-min);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+
+    &::-webkit-details-marker { display: none; }
+    &::before {
+      content: '+';
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      flex: none;
+      border: 1.5px solid currentColor;
+      border-radius: 50%;
+      font-family: var(--f-mono);
+      transition: transform var(--dur-corta);
+    }
+  }
+  &[open] summary::before { content: '−'; }
+  ul { margin: var(--s-3) 0 0; padding-left: var(--s-5); }
+}
+
+.por-definir {
+  margin-top: var(--s-3);
+  padding: var(--s-4);
+  border: 1.5px dashed var(--c-grafito);
+  border-radius: var(--r-etiqueta);
+  color: var(--c-noche);
+  .pendiente { margin-right: var(--s-2); }
+}
+
+// Testimonios como comprobantes de entrega.
+.entregas { margin-top: var(--s-8); }
+
+.entregas-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-3);
+  margin-bottom: var(--s-5);
+
+  h3 { font-size: var(--t-xl); }
+}
+
+.aviso { font-size: var(--t-sm); color: var(--c-grafito); .pendiente { margin-right: var(--s-2); } }
+
+.comprobantes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-5);
+
+  @include desde($bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @include desde($bp-lg) {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 4fr) minmax(0, 4fr);
+    align-items: start;
+  }
+}
+
+.comprobante {
+  figure {
+    margin: 0;
+    padding: var(--s-5) var(--s-5) var(--s-6);
+    background: var(--c-hueso-2);
+    border-radius: var(--r-etiqueta) var(--r-etiqueta) 0 0;
+    // Borde inferior rasgado, como un recibo.
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 16px 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 16px 100%;
+  }
+
+  &.ancho { @include desde($bp-md) { grid-row: span 2; } }
+  &:nth-child(2) { @include desde($bp-lg) { margin-top: var(--s-6); } }
+
+  blockquote { margin: var(--s-4) 0; font-size: var(--t-base); }
+  figcaption { font-size: var(--t-sm); color: var(--c-grafito); }
+  .video { margin-top: var(--s-4); color: var(--c-grafito); }
+}
+
+.comprobante-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s-3);
+  padding-bottom: var(--s-3);
+  border-bottom: 1px dashed var(--c-linea-clara);
+  font-size: var(--t-xs);
+}
+
+.entregado {
+  padding: 2px var(--s-2);
+  background: var(--c-verde);
+  color: var(--c-noche);
+  font-weight: 700;
+  border-radius: var(--r-pastilla);
+}

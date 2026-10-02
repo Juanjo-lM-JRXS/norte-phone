@@ -1,0 +1,38 @@
+<section id="el-parche" class="seccion seccion-oscura" aria-labelledby="parche-titulo">
+  <div class="anillos" aria-hidden="true"></div>
+  <div class="contenedor rejilla">
+    <div class="escena" appInclinacion="10">
+      <div class="tarjeta vidrio" role="img"
+        [attr.aria-label]="'Tarjeta de ejemplo de miembro del Parche, número ' + numeroMiembro()">
+        <div class="tarjeta-arriba">
+          <app-logo-norte tamano="1.25rem" />
+          <span class="mono numero">{{ numeroMiembro() }}</span>
+        </div>
+        <p class="tarjeta-nombre">El Parche</p>
+        <div class="tarjeta-abajo">
+          <span>Miembro desde tu primera entrega</span>
+          <span class="mono pago">+{{ parche().pagoPorAmigo | cop: false }} por amigo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="texto">
+      <h2 id="parche-titulo" class="titulo-seccion">El Parche</h2>
+      <p class="entrada-seccion">{{ parche().mensaje }}</p>
+      <ol role="list" class="pasos">
+        @for (paso of parche().pasos; track paso.titulo; let i = $index) {
+          <li>
+            <span class="numero-paso mono" aria-hidden="true">{{ i + 1 }}</span>
+            <div>
+              <h3>{{ paso.titulo }}</h3>
+              <p>{{ paso.descripcion }}</p>
+            </div>
+          </li>
+        }
+      </ol>
+      <p class="aclaracion">
+        Es solo para quienes ya compraron: es un club de clientes, no un trabajo de vendedor.
+      </p>
+    </div>
+  </div>
+</section>

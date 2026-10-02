@@ -1,0 +1,78 @@
+<section id="confianza" class="seccion seccion-clara" aria-labelledby="confianza-titulo">
+  <div class="contenedor">
+    <div class="laboratorio">
+      <div class="pruebas">
+        <h2 id="confianza-titulo" class="titulo-seccion">Original, y te lo mostramos</h2>
+        <p class="entrada-seccion">
+          Más barato que el almacén y más confiable que el vendedor informal. Estas son las pruebas.
+        </p>
+        <ul role="list" class="lista-pruebas">
+          @for (prueba of pruebas(); track prueba.titulo; let primero = $first) {
+            <li>
+              <h3>{{ prueba.titulo }}</h3>
+              <p>{{ prueba.descripcion }}</p>
+              @if (primero) {
+                <app-serial-verificacion class="serial" [animar]="animar()" />
+              }
+            </li>
+          }
+        </ul>
+      </div>
+      <div class="panel-sello" (appProgresoSeccion)="alProgreso($event)">
+        <div class="moneda" role="img" aria-label="Sello Norte: original verificado" [style.--giro]="giro()">
+          <div class="cara frente"><app-sello-norte [decorativo]="true" /></div>
+          <div class="cara dorso" aria-hidden="true">
+            <span class="mono">Pedido {{ pedido() }}</span>
+            <span class="dorso-texto">Serial verificado</span>
+          </div>
+        </div>
+        <p class="pie-sello">Cada equipo lleva el Sello Norte cuando pasa la verificación.</p>
+      </div>
+    </div>
+
+    <article id="garantia" class="garantia" aria-labelledby="garantia-titulo">
+      <div class="garantia-cabecera">
+        <h3 id="garantia-titulo">Garantía Norte</h3>
+        <p>{{ garantia().resumen }}</p>
+      </div>
+      <details class="condiciones">
+        <summary>Ver condiciones de la garantía</summary>
+        @if (garantia().definida) {
+          <ul>
+            @for (c of garantia().condiciones; track c) { <li>{{ c }}</li> }
+          </ul>
+        } @else {
+          <p class="por-definir">
+            <span class="pendiente">Pendiente</span>
+            Aquí van la duración y lo que cubre la garantía, por escrito. Se publican cuando estén definidas.
+          </p>
+        }
+      </details>
+    </article>
+
+    <section class="entregas" aria-labelledby="entregas-titulo">
+      <div class="entregas-cabecera">
+        <h3 id="entregas-titulo">Entregas recientes</h3>
+        <p class="aviso"><span class="pendiente">Ejemplo</span> Se reemplazan por entregas reales, con permiso del cliente.</p>
+      </div>
+      <ul role="list" class="comprobantes">
+        @for (t of testimonios(); track t.pedido; let primero = $first) {
+          <li class="comprobante" [class.ancho]="primero">
+            <figure>
+              <div class="comprobante-cabecera">
+                <span class="mono">Pedido {{ t.pedido }}</span>
+                <span class="entregado mono">Entregado</span>
+              </div>
+              @if (primero) {
+                <app-placeholder-media class="video" descripcion="Video corto de la entrega" etiqueta="Video pendiente"
+                  proporcion="16 / 9" />
+              }
+              <blockquote><p>{{ t.texto }}</p></blockquote>
+              <figcaption>{{ t.nombre }}, {{ t.ciudad }}</figcaption>
+            </figure>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>

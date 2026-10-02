@@ -1,0 +1,67 @@
+<section id="inicio" class="hero" aria-labelledby="hero-titulo">
+  <!-- La ruta EE. UU. → Colombia detrás del vidrio: da qué refractar y cuenta el origen. -->
+  <svg class="ruta-fondo" viewBox="0 0 1200 900" preserveAspectRatio="xMaxYMid slice" aria-hidden="true"
+    focusable="false">
+    <path class="arco" pathLength="1" d="M1040 60 C 1180 300, 640 420, 800 860" />
+    <circle class="punto-origen" cx="1040" cy="60" r="7" />
+    <circle class="punto-destino" cx="800" cy="860" r="7" />
+    <text class="rotulo" x="1060" y="66">EE. UU.</text>
+    <text class="rotulo" x="820" y="866">Colombia</text>
+  </svg>
+
+  <div class="contenedor rejilla">
+    <div class="texto">
+      <h1 id="hero-titulo" class="titulo">
+        <span class="linea">{{ eslogan()[0] }}</span>
+        <span class="linea desplazada">{{ eslogan()[1] }}</span>
+      </h1>
+      <p class="beneficio">{{ beneficio() }}</p>
+      <div class="acciones">
+        <app-boton-whatsapp variante="grande" [mensaje]="mensaje()" />
+        <a class="enlace-ruta" href="#como-funciona">Ver cómo funciona</a>
+      </div>
+      <p class="nota">Precios públicos. Pagas por {{ pagos() }}.</p>
+    </div>
+
+    <figure class="escena" appInclinacion>
+      <app-etiqueta-envio tono="vidrio" class="etiqueta">
+        <div class="cabecera">
+          <app-logo-norte tamano="1.125rem" />
+          <span class="mono pedido">Pedido {{ pedido() }}</span>
+        </div>
+
+        <div class="trayecto">
+          <span class="mono">EE. UU.</span>
+          <svg viewBox="0 0 120 12" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+            <line x1="6" y1="6" x2="114" y2="6" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" />
+            <circle cx="6" cy="6" r="4" fill="var(--c-naranja)" />
+            <circle cx="114" cy="6" r="4" fill="none" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+          <span class="mono">Colombia</span>
+        </div>
+
+        @if (producto().fotoPendiente) {
+          <app-placeholder-media class="foto" descripcion="Foto real del equipo del pedido" proporcion="16 / 10" />
+        }
+
+        <dl class="campos">
+          <div>
+            <dt>Equipo</dt>
+            <dd>{{ producto().nombre }}</dd>
+          </div>
+          <div>
+            <dt>Llega en</dt>
+            <dd>{{ plan().entrega }}</dd>
+          </div>
+          <div class="campo-precio">
+            <dt>{{ plan().nombre }}</dt>
+            <dd class="mono precio">{{ plan().precio | cop }}</dd>
+          </div>
+        </dl>
+
+        <app-sello-norte class="sello" [decorativo]="true" />
+      </app-etiqueta-envio>
+      <figcaption class="pie">Etiqueta de ejemplo de un pedido Norte, con el Sello Norte de verificación.</figcaption>
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,75 @@
+// Design tokens de Norte. Fuente: "Norte — Branding".
+// Los colores derivados (noche-2/3, grafito-claro, texto-vidrio-2) existen
+// solo para cumplir contraste AA; ver scripts/contraste.mjs.
+
+// Breakpoints en em para que respondan al zoom del navegador.
+$bp-md: 48em;
+$bp-lg: 64em;
+$bp-xl: 80em;
+
+@mixin desde($bp) {
+  @media (min-width: $bp) { @content; }
+}
+
+@mixin movimiento {
+  @media (prefers-reduced-motion: no-preference) { @content; }
+}
+
+:root {
+  // Paleta de marca
+  --c-noche: #0f1b2d;
+  --c-hueso: #f7f6f2;
+  --c-naranja: #ff6b1a;
+  --c-verde: #2bb673;
+  --c-grafito: #5a6270;
+
+  // Derivados (capas de profundidad y texto secundario accesible)
+  --c-noche-2: #15243a;
+  --c-noche-3: #1c2f4a;
+  --c-hueso-2: #edebe4;
+  --c-grafito-claro: #a9b1be;   // texto secundario sobre noche (8:1)
+  --c-texto-vidrio-2: #c9cfd8;  // texto secundario sobre vidrio oscuro
+  --c-linea-oscura: rgb(247 246 242 / 0.16);
+  --c-linea-clara: rgb(15 27 45 / 0.16);
+
+  // Tipografías
+  --f-titulo: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --f-texto: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --f-mono: 'Space Mono', ui-monospace, 'Courier New', monospace;
+
+  // Escala tipográfica (base 17px, razón ~1.25)
+  --t-xs: 0.8125rem;
+  --t-sm: 0.9375rem;
+  --t-base: 1.0625rem;
+  --t-lg: 1.25rem;
+  --t-xl: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+  --t-2xl: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --t-hero: clamp(2.75rem, 1.5rem + 5.6vw, 6.25rem);
+
+  // Espacios
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4.5rem;
+  --s-9: 6.5rem;
+
+  // Radios por jerarquía: etiqueta < panel < superficie de vidrio
+  --r-etiqueta: 6px;
+  --r-panel: 14px;
+  --r-vidrio: 28px;
+  --r-pastilla: 999px;
+
+  // Movimiento
+  --ease-salida: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-corta: 180ms;
+  --dur-media: 420ms;
+
+  // Layout
+  --ancho-max: 76rem;
+  --alto-header: 4rem;
+  --toque-min: 44px;
+}

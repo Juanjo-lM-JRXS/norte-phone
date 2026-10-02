@@ -1,0 +1,89 @@
+<section id="planes" class="seccion seccion-clara" aria-labelledby="planes-titulo">
+  <div class="contenedor">
+    <div class="encabezado">
+      <h2 id="planes-titulo" class="titulo-seccion">Arma tu pedido</h2>
+      <p class="entrada-seccion">
+        Precios públicos, sin "precio al privado". Escoges cómo lo recibes y, si quieres, le sumas un beneficio.
+      </p>
+    </div>
+
+    <div class="armador">
+      <div class="opciones">
+        <fieldset class="grupo">
+          <legend><span class="paso mono" aria-hidden="true">1</span>¿Cómo lo quieres recibir?</legend>
+          <div class="planes">
+            @for (plan of planes(); track plan.id; let primero = $first) {
+              <label class="opcion plan" [class.principal]="primero">
+                <input type="radio" name="plan" [value]="plan.id" [checked]="plan.id === planId()"
+                  (change)="elegirPlan.emit(plan.id)" />
+                <span class="marca-radio" aria-hidden="true"></span>
+                <span class="nombre">{{ plan.nombre }}</span>
+                <span class="precio mono">{{ plan.precio | cop }}</span>
+                <span class="mensaje">{{ plan.mensaje }}</span>
+                <span class="meta">
+                  Entrega: {{ plan.entrega }}@if (plan.anticipo !== null) {. Anticipo del {{ porcentaje(plan.anticipo) }}}
+                  @if (plan.nota) { <span class="nota">{{ plan.nota }}</span> }
+                </span>
+                @if (primero && ahorroEncargo() > 0) {
+                  <span class="adhesivo mono" aria-hidden="true">Ahorras {{ ahorroEncargo() | cop: false }}</span>
+                }
+              </label>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="grupo">
+          <legend>
+            <span class="paso mono" aria-hidden="true">2</span>Suma un beneficio
+            <span class="ayuda">Escoges uno.</span>
+          </legend>
+          <div class="beneficios">
+            @for (beneficio of beneficios(); track beneficio.id) {
+              <label class="opcion beneficio">
+                <input type="radio" name="beneficio" [value]="beneficio.id"
+                  [checked]="beneficio.id === beneficioId()" (change)="elegirBeneficio.emit(beneficio.id)" />
+                <span class="marca-radio" aria-hidden="true"></span>
+                <span class="nombre">{{ beneficio.nombre }}</span>
+                <span class="mensaje">{{ beneficio.mensaje }}</span>
+                @if (beneficio.descuentoPorEquipo > 0) {
+                  <span class="dato mono">−{{ beneficio.descuentoPorEquipo | cop: false }} por equipo</span>
+                }
+                @if (beneficio.incluye) {
+                  <span class="dato mono">Incluye: {{ beneficio.incluye.join(' y ').toLowerCase() }}</span>
+                }
+              </label>
+            }
+          </div>
+        </fieldset>
+      </div>
+
+      <aside class="resumen" aria-labelledby="resumen-titulo">
+        <app-etiqueta-envio tono="noche">
+          <h3 id="resumen-titulo" class="resumen-titulo">Tu pedido</h3>
+          <dl class="lineas">
+            <div><dt>Equipo</dt><dd>{{ producto() }}</dd></div>
+            <div><dt>Plan</dt><dd>{{ cotizacion().plan.nombre }}</dd></div>
+            <div><dt>Beneficio</dt><dd>{{ cotizacion().beneficio.nombre }}</dd></div>
+            <div class="destacado">
+              <dt>Precio por equipo</dt>
+              <dd class="mono">{{ cotizacion().precioPorEquipo | cop }}</dd>
+            </div>
+            @if (cotizacion().equipos > 1) {
+              <div><dt>Total por {{ cotizacion().equipos }} equipos</dt><dd class="mono">{{ cotizacion().total | cop }}</dd></div>
+            }
+            @if (cotizacion().anticipo !== null) {
+              <div>
+                <dt>Anticipo al pedir ({{ porcentaje(cotizacion().plan.anticipo) }})</dt>
+                <dd class="mono">{{ cotizacion().anticipo | cop }}</dd>
+              </div>
+              <div><dt>Saldo al recibirlo</dt><dd class="mono">{{ cotizacion().saldo | cop }}</dd></div>
+            }
+          </dl>
+          <p class="pagos">Pagas por {{ pagos() }}. Por ahora no recibimos tarjetas.</p>
+          <p class="sr-only" aria-live="polite" aria-atomic="true">{{ anuncio() }}</p>
+          <app-boton-whatsapp class="cta" texto="Pedir por WhatsApp" [mensaje]="mensaje()" />
+        </app-etiqueta-envio>
+      </aside>
+    </div>
+  </div>
+</section>

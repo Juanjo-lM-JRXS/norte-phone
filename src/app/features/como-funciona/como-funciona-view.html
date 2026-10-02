@@ -1,0 +1,41 @@
+<section id="como-funciona" class="seccion seccion-oscura" aria-labelledby="ruta-titulo">
+  <div class="contenedor rejilla">
+    <div class="intro">
+      <h2 id="ruta-titulo" class="titulo-seccion">Así llega tu equipo</h2>
+      <p class="entrada-seccion">
+        Cada encargo pasa por cinco etapas y te avisamos en cada una, por chat y en historias.
+        Nada de "info al interno".
+      </p>
+      <p class="pago">
+        Pagas el <strong>{{ anticipo() }} al pedir</strong> y el saldo cuando tienes el equipo en la mano.
+      </p>
+
+      <!-- Tarjeta de seguimiento: repite visualmente el estado, por eso es decorativa. -->
+      <div class="seguimiento vidrio" aria-hidden="true">
+        <p class="mono pedido">Pedido {{ pedido() }}</p>
+        <p class="estado" [class.verde]="etapaActual().verificada">{{ etapaActual().nombre }}</p>
+        <div class="puntos">
+          @for (etapa of etapas(); track etapa.id; let i = $index) {
+            <span [class.lleno]="i <= alcanzada()" [class.verde]="etapa.verificada && i <= alcanzada()"></span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="recorrido" (appProgresoSeccion)="alProgreso($event)">
+      <div class="riel" aria-hidden="true">
+        <span class="relleno" [style.transform]="'scaleY(' + avance() + ')'"></span>
+      </div>
+      <ol class="etapas" role="list">
+        @for (etapa of etapas(); track etapa.id; let i = $index) {
+          <li class="etapa" [class.alcanzada]="i <= alcanzada()" [class.verificada]="etapa.verificada">
+            <span class="marcador mono" aria-hidden="true">{{ i + 1 }}</span>
+            <h3 class="nombre"><span class="sr-only">Etapa {{ i + 1 }}: </span>{{ etapa.nombre }}</h3>
+            <p class="descripcion">{{ etapa.descripcion }}</p>
+            <p class="prueba"><span class="sr-only">Lo que ves: </span><span class="mono">{{ etapa.prueba }}</span></p>
+          </li>
+        }
+      </ol>
+    </div>
+  </div>
+</section>

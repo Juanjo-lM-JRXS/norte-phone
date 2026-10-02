@@ -1,0 +1,77 @@
+<header class="header">
+  <div class="contenedor fila">
+    <a href="#inicio" class="enlace-logo">
+      <app-logo-norte />
+      <span class="sr-only">, ir al inicio</span>
+    </a>
+
+    <nav class="nav-escritorio" aria-label="Principal">
+      <ol role="list" class="paradas">
+        @for (item of items; track item.id) {
+          <li>
+            <a [href]="'#' + item.id" [attr.aria-current]="activa() === item.id ? 'location' : null">
+              <span class="punto" aria-hidden="true"></span>
+              {{ item.texto }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <app-boton-whatsapp class="cta-escritorio" variante="compacto" texto="WhatsApp" [mensaje]="mensaje()" />
+
+    <button type="button" class="boton-menu" aria-haspopup="dialog" aria-controls="menu-movil"
+      [attr.aria-expanded]="abierto()" (click)="abrir()">
+      <span class="lineas" aria-hidden="true"><span></span><span></span></span>
+      Menú
+    </button>
+  </div>
+
+  <div class="seguimiento" aria-hidden="true">
+    <span class="avance" [style.transform]="escalaSeguimiento()"></span>
+  </div>
+</header>
+
+<dialog #dialogo id="menu-movil" class="menu-movil" aria-labelledby="menu-titulo" (close)="alCerrar()"
+  (click)="clicEnDialogo($event)">
+  <div class="panel">
+    <div class="panel-cabecera">
+      <p id="menu-titulo" class="menu-titulo">
+        <span class="sr-only">Menú de </span>
+        <app-logo-norte />
+      </p>
+      <button type="button" class="boton-cerrar" (click)="cerrar()">
+        Cerrar
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+
+    <nav aria-label="Secciones">
+      <ol role="list" class="ruta-menu">
+        <li>
+          <a href="#inicio" (click)="cerrar()" [attr.aria-current]="activa() === 'inicio' ? 'location' : null">
+            <span class="punto" aria-hidden="true"></span>Inicio
+          </a>
+        </li>
+        @for (item of items; track item.id) {
+          <li>
+            <a [href]="'#' + item.id" (click)="cerrar()"
+              [attr.aria-current]="activa() === item.id ? 'location' : null">
+              <span class="punto" aria-hidden="true"></span>{{ item.texto }}
+            </a>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <div class="panel-pie">
+      <p class="desde">
+        <span>Te lo traemos desde</span>
+        <span class="mono precio">{{ planPrincipal().precio | cop }}</span>
+      </p>
+      <app-boton-whatsapp [mensaje]="mensaje()" />
+    </div>
+  </div>
+</dialog>
